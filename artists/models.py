@@ -7,6 +7,7 @@ class States(models.Model):
   uf = models.CharField(max_length=2)
   region = models.IntegerField()
 
+
   def __str__(self):
     return self.name
 
@@ -22,7 +23,7 @@ class Artist(models.Model):
 
 class Tags(models.Model):
   name = models.CharField(max_length=60)
-  artists = models.ManyToManyField(Artist)
+  artists = models.ManyToManyField(Artist, related_name='tags')
 
   def __str__(self):
     return self.name
