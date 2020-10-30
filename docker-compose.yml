@@ -1,8 +1,13 @@
 version: "3.8"
 
+volumes:
+  artistry-codex-volume:
+
 services:
   db:
     image: postgres
+    volumes:
+      - artistry-codex-volume:/data
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
