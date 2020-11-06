@@ -12,6 +12,21 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    image: artistry-codex-client
+    command: "serve"
+    volumes:
+      - .:/code
+    ports:
+      - "${LOCAL_WEBPACK_SERVER_PORT}:8080"
+    environment:
+      LOCAL_WEBPACK_SERVER_PORT: "${LOCAL_WEBPACK_SERVER_PORT}"
+      DEVSERVER_HOST: "${DEVSERVER_HOST:-localhost}"
+
   web:
     build: .
     environment:

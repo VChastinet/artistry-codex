@@ -12,7 +12,7 @@ class ArtistsViewSet(viewsets.ModelViewSet):
 
   def artist_by_tag(self, request, tag_id):
 
-    queryset = self.queryset.filter(tags=tag_id)
+    queryset = self.get_queryset.filter(tags=tag_id)
     page = self.paginate_queryset(queryset)
     serialize = self.get_serializer(page, many=True)
 
@@ -20,7 +20,7 @@ class ArtistsViewSet(viewsets.ModelViewSet):
 
   def artist_by_state(self, request, uf):
 
-    queryset = self.queryset.filter(state__uf=uf.upper())
+    queryset = self.get_queryset.filter(state__uf=uf.upper())
     page = self.paginate_queryset(queryset)
     serialize = self.get_serializer(page, many=True)
 
