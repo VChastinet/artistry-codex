@@ -5,7 +5,6 @@
 <style scoped>
 #loader {
   margin: auto;
-  margin-top: 25%;
   width: 100px;
   height: 100px;
   border-radius: 5px;
@@ -30,7 +29,5 @@
 <script lang="ts">
 import Vue from "vue";
 
-export default Vue.extend({
-  name: "Spinner"
-});
+export default Vue.extend({ name: "Spinner" });
 </script>
