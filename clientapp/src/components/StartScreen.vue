@@ -1,12 +1,12 @@
 <template>
-<div class="component-container" id="componentContainer">
+<div class="component-container" :class="{'d-none': hiddenState}">
   <v-container>
     <v-icon class="logo" :class="{shrink: hide}" color="pink pink-3">
       mdi-palette
     </v-icon>
     <div class="title">
       <h1>Art Codex</h1>
-      <h3>Welcome to the Art Codex</h3>
+      <h3>Welcome to the Art Codex{{hiddenState}}</h3>
     </div>
     <Spinner class="spinner" />
     <v-footer
@@ -78,29 +78,27 @@
 import Vue from "vue";
 import Spinner from "./Spinner.vue";
 
-const hideScreen = (hide) => {
-    let showComponent = false;
-    if (hide) {
-      setTimeout(() => {
-        showComponent = hide;
-        document.getElementById('componentContainer').classList.add('d-none');
-      }, 2010);
-    }
-    return showComponent;
+const setIconCoordinates = () => {
+  const root = document.documentElement;
+  const iconTop = document.getElementById('logo-icon').getBoundingClientRect().top;
+  const iconleft = document.getElementById('logo-icon').getBoundingClientRect().left;
+  root.style.setProperty('--icon-top', `${iconTop}px`);
+  root.style.setProperty('--icon-left', `${iconleft}px`);
 }
 
 export default Vue.extend({
   name: 'StartScreen',
   components: { Spinner },
   props:['hide'],
+  data: () => ({ hiddenState: false }),
   mounted: function() {
-    hideScreen(this.hide);
-    const root = document.documentElement;
-    const iconTop = document.getElementById('logo-icon').getBoundingClientRect().top;
-    const iconleft = document.getElementById('logo-icon').getBoundingClientRect().left;
-    root.style.setProperty('--icon-top', `${iconTop}px`);
-    root.style.setProperty('--icon-left', `${iconleft}px`);
+    if (this.hide) {
+      setTimeout(() => {
+        this.hiddenState = this.hide;
+      }, 2010);
+    }
 
-  }
+    setIconCoordinates();
+  },
 });
 </script>
