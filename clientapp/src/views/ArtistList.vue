@@ -1,31 +1,23 @@
 <template>
 <v-list three-line>
     <template v-for="(item, index) in items">
-      <v-subheader
-        v-if="item.header"
-        :key="item.header"
-        v-text="item.header"
-      ></v-subheader>
-
-      <v-divider
-        v-else-if="item.divider"
-        :key="index"
-        :inset="item.inset"
-      ></v-divider>
-
       <v-list-item
-        v-else
         :key="item.title"
       >
         <v-list-item-avatar>
-          <v-img :src="item.portfolio"></v-img>
+          <v-img :src="require(`@/assets/placeholders/profile_placeholder_${randomProfilePlaceholder()}.png`)"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
           <v-list-item-title v-html="item.name"></v-list-item-title>
-          <v-list-item-subtitle v-html="item.state"></v-list-item-subtitle>
+          <v-list-item-subtitle v-html="listTags(item.tags)"></v-list-item-subtitle>
+          <v-list-item-subtitle class="font-weight-bold" v-html="item.state.name"></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
+      <v-divider
+        :key="index"
+        :inset="item.inset"
+      ></v-divider>
     </template>
     </v-list>
 </template>
@@ -46,7 +38,7 @@ interface Artist {
     id: number,
     contact: string,
     portfolio: string,
-    state: string,
+    state: State,
     instagram_username: string,
     tags: Tag[],
 }
@@ -54,9 +46,18 @@ interface Artist {
 interface Tag {
   id: number,
   name: string,
-  description: string,
+  description?: string,
 }
 
+interface State {
+  id: number,
+  uf: string,
+  name: string,
+}
+
+const randomProfilePlaceholder = () => Math.floor(Math.random() * 8);
+
+const listTags = (tags: Tag[]): string => tags.map(({ name }) => name).join(', ');
 
 @Component({
   components: {
@@ -64,6 +65,8 @@ interface Tag {
   },
   data: () => ({
     items: [] as Artist[],
+    randomProfilePlaceholder,
+    listTags
     }),
     mounted: async function() {
       const { data } = await axios.get('http://localhost:8000/api/artists/')

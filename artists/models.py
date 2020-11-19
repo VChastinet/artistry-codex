@@ -8,7 +8,7 @@ class State(models.Model):
   region = models.IntegerField()
 
   def __str__(self):
-    return self.uf
+    return self.name
 
 class Tag(models.Model):
   name = models.CharField(max_length=60)

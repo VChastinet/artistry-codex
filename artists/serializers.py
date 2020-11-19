@@ -18,8 +18,8 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class ArtistSerializer(serializers.ModelSerializer):
-    state = serializers.StringRelatedField()
     tags = TagSerializer(many=True)
+    state = StateSerializer()
 
     class Meta:
         model = models.Artist
