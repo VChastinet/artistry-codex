@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <StartScreen v-bind:hide="hideStart" />
+    <StartScreen v-bind:hide="shouldHide" />
     <div>
     <div class="app-bar-bg"></div>
+      <artistCard v-bind:artistDetails="artistDetails" />
       <v-app-bar
         colapse="true"
         color="pink pink-3"
@@ -22,10 +23,10 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </v-app-bar>
-      <div class="app-bar-cover" :class="{'reveal-bar': hideStart}"></div>
+      <div class="app-bar-cover" :class="{'reveal-bar': shouldHide}"></div>
     </div>
     <v-main>
-      <ArtistList />
+      <ArtistList @loaded="hideStart" @itemClicked="showDetails" />
     </v-main>
     <v-footer
       absolute
@@ -41,11 +42,49 @@
   </v-app>
 </template>
 
+<script lang="ts">
+import StartScreen from "@/components/StartScreen.vue";
+import ArtistCard from "@/components/ArtistCard.vue";
+import ArtistList from "@/views/ArtistList.vue";
+
+function hideStart(isLoaded) {
+  this.$data.shouldHide = isLoaded;
+}
+
+function showDetails(details) {
+  console.log('details: ', details);
+  this.artistDetails = details;
+}
+
+export default {
+  name: "App",
+  components: {
+    StartScreen,
+    ArtistList,
+    ArtistCard,
+  },
+  methods: {
+    hideStart,
+    showDetails,
+  },
+  data () {
+    return {
+      shouldHide: false,
+      artistDetails: null,
+    }
+  }
+};
+</script>
+
 <style scoped>
+
+footer {
+  z-index: 99;
+}
+
 .v-main, .v-app-bar {
   max-width: 800px;
   margin: auto;
-  z-index: 98;
 }
 
 .app-bar-bg {
@@ -78,24 +117,3 @@
 }
 
 </style>
-
-<script lang="ts">
-import Vue from "vue";
-import StartScreen from "@/components/StartScreen.vue";
-import ArtistList from "@/views/ArtistList.vue";
-
-const hideStart = true;
-
-export default Vue.extend({
-  name: "App",
-
-  components: {
-    StartScreen,
-    ArtistList,
-  },
-
-  data: () => ({
-    hideStart,
-  })
-});
-</script>
