@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'artistry_codex.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['DB_NAME'],
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASS'],
-        'HOST': os.environ['DB_HOST'],
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'HOST': os.environ['POSTGRES_HOST'],
         'PORT': 5432,
     }
 }
@@ -129,14 +129,15 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'artistry_codex/'),
+    os.path.join(BASE_DIR, 'client', 'build', 'static'),
 ]
 
-WEBPACK_DIR = os.path.join(BASE_DIR, 'clientapp')
+WEBPACK_DIR = os.path.join(BASE_DIR, 'client')
 
 WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': 'client/',
+        'BUNDLE_DIR_NAME': 'build/',
         'STATS_FILE': os.path.join(WEBPACK_DIR, 'webpack-stats.json'),
         'POLL_INTERVAL': 0.1,
         'TIMEOUT': None,
@@ -145,9 +146,9 @@ WEBPACK_LOADER = {
 }
 
 REST_FRAMEWORK = {
-  'DEFAULT_PERMISSION_CLASSES': [
+    'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-  ],
-  'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-  'PAGE_SIZE': 50
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50
 }

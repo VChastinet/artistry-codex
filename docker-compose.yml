@@ -9,31 +9,26 @@ services:
     volumes:
       - artistry-codex-volume:/data
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
+      POSTGRES_USER: "${POSTGRES_USER:-root}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-root}"
+      POSTGRES_DB: "${POSTGRES_DB:-local}"
 
   client:
     build:
       context: .
       dockerfile: Dockerfile.client
     image: artistry-codex-client
-    command: "serve"
+    command: "build"
     volumes:
       - .:/code
-    ports:
-      - "${LOCAL_WEBPACK_SERVER_PORT}:8080"
-    environment:
-      LOCAL_WEBPACK_SERVER_PORT: "${LOCAL_WEBPACK_SERVER_PORT}"
-      DEVSERVER_HOST: "${DEVSERVER_HOST:-0.0.0.0}"
 
   web:
     build: .
     environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASS}
-      - DB_HOST=${DB_HOST}
+      POSTGRES_USER: "${POSTGRES_USER:-root}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-root}"
+      POSTGRES_DB: "${POSTGRES_DB:-local}"
+      POSTGRES_HOST: "${POSTGRES_HOST:-db}"
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code

@@ -2,23 +2,23 @@ FROM node:12.19
 
 LABEL maintainer="victor@chastinet.dev"
 
-EXPOSE 8080
+EXPOSE 3000
 
-RUN mkdir -p /code/clientapp
-WORKDIR /code/clientapp
+RUN mkdir -p /code/client
+WORKDIR /code/client
 
 # Add configuration files for caching
-ADD clientapp/package.json /code/clientapp
-ADD clientapp/webpack-stats.json /code/clientapp
-ADD clientapp/yarn.lock /code/clientapp
+ADD client/package.json /code/client
+ADD client/webpack-stats.json /code/client
+ADD client/yarn.lock /code/client
 
 # Rewriting the lock file would break the docker cache.
 # To add dependencies, edit package.json then
 # docker-compose run --rm webpack install
 RUN yarn install -D --frozen-lockfile
 
-# You'll see an empty clientapp/node_modules locally
+# You'll see an empty client/node_modules locally
 # Just ignore it an there's no need to yarn install locally
-VOLUME /code/clientapp/node_modules
+VOLUME /code/client/node_modules
 
 ENTRYPOINT ["yarn"]

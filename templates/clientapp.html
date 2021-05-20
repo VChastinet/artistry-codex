@@ -1,6 +1,3 @@
 {% load render_bundle from webpack_loader %}
-<div id="app">
-  <app></app>
-</div>
-{% render_bundle 'chunk-vendors' %}
-{% render_bundle 'clientapp' %}
+<div id="root"></div>
+{% render_bundle 'main' %}
