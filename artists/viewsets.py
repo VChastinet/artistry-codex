@@ -1,16 +1,29 @@
 from django.db.models import Count
 from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.decorators import action
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
 
 from artists.serializers import ArtistSerializer, StateSerializer, TagSerializer
 from . import models
 
 
 class ArtistsViewSet(viewsets.ModelViewSet):
+  """Returns a list of artists filtered by params.
+
+  @params tags
+  @params name
+  @params uf
+  """
+
   queryset = models.Artist.objects.all()
   serializer_class = ArtistSerializer
 
+  tags = openapi.Parameter('tags', openapi.IN_QUERY, description="one or more tag id", type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_INTEGER))
+  name = openapi.Parameter('name', openapi.IN_QUERY, description="name (or part of) of the artist", type=openapi.TYPE_STRING)
+  uf = openapi.Parameter('uf', openapi.IN_QUERY, description="State's inital", type=openapi.TYPE_STRING)
+
+  @swagger_auto_schema(manual_parameters=[tags, name, uf])
   def list(self, request, *args, **kwargs):
     tag_params = request.GET.get('tags')
     name_params = request.GET.get('name')
@@ -27,6 +40,7 @@ class ArtistsViewSet(viewsets.ModelViewSet):
   
   def artist_by_tag(self, request, tag_params):
     tags = tag_params.split(',')
+    # queryset = self.get_queryset().filter(tags__in=tags).annotate(num_tags=Count('tags')).filter(num_tags__gte=len(tags))
     queryset = self.get_queryset().filter(tags__in=tags).annotate(num_tags=Count('tags')).filter(num_tags__gte=len(tags))
     page = self.paginate_queryset(queryset)
     serialize = self.get_serializer(page, many=True)

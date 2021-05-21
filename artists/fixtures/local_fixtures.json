@@ -1,0 +1,82 @@
+[
+  {
+    "model": "artists.tag",
+    "pk": 1,
+    "fields": {
+      "name": "grafitti",
+      "description": "street art done on walls"
+    }
+  },
+  {
+    "model": "artists.tag",
+    "pk": 2,
+    "fields": {
+      "name": "painting",
+      "description": "oil painting on canvas"
+    }
+  },
+  {
+    "model": "artists.tag",
+    "pk": 3,
+    "fields": {
+      "name": "digital",
+      "description": "computer art, made with digital media"
+    }
+  },
+  {
+    "model": "artists.tag",
+    "pk": 4,
+    "fields": {
+      "name": "poetry",
+      "description": "wrinten or spoken poetry"
+    }
+  },
+  {
+    "model": "artists.artist",
+    "pk": 10,
+    "fields": {
+      "name": "random artist 1",
+      "contact": "random@artist.one",
+      "instagram_username": "@randomArtist1",
+      "portfolio": "www.random-artist.one",
+      "state": 2,
+      "tags": [1]
+    }
+  },
+  {
+    "model": "artists.artist",
+    "pk": 15,
+    "fields": {
+      "name": "random artist 2",
+      "contact": "random@artist.two",
+      "instagram_username": "@randomArtist2",
+      "portfolio": "www.random-artist.two",
+      "state": 15,
+      "tags": [1, 2]
+    }
+  },
+  {
+    "model": "artists.artist",
+    "pk": 25,
+    "fields": {
+      "name": "random artist 3",
+      "contact": "random@artist.three",
+      "instagram_username": "@randomArtist3",
+      "portfolio": "www.random-artist.three",
+      "state": 25,
+      "tags": [1, 2, 3, 4]
+    }
+  },
+  {
+    "model": "artists.artist",
+    "pk": 5,
+    "fields": {
+      "name": "random artist 4",
+      "contact": "random@artist.four",
+      "instagram_username": "@randomArtist4",
+      "portfolio": "www.random-artist.four",
+      "state": 3,
+      "tags": [4]
+    }
+  }
+]
